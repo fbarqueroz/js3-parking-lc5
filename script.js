@@ -38,7 +38,6 @@
 
 /* 
   PASOS:
-
   1. Agarrar el valor del input (placa) con un evento submit
   2. Calcular la hora y guardarla en una variable
   3. Crear los elementos para agregar a la tabla
@@ -48,19 +47,16 @@
      - Guardar la <b> dentro del <h3>
      - Agarramos todos los espacios vacios
      - Usar innerText para actualizar el numero
-
   <span>🚗</span>
   <small>BBR-449</small>
   <small>7:14am</small>
   <button class="botonEliminar">Eliminar</button>
-
     celdaVacia.innerHTML = `
     <span>🚗</span>
     <small>${input.value}</small>
     <small>${hora}</small>
     <button>Eliminar</button>
   `;
-
  */
 
 const formulario = document.querySelector("form");
@@ -89,7 +85,31 @@ const crearElementos = (hora, placa) => {
   celdaVacia.appendChild(placaNuevoIngreso);
   celdaVacia.appendChild(horaNuevoIngreso);
   celdaVacia.appendChild(botonEliminar);
+
 };
+
+const ParqueoLleno = (celdasVacias) => {
+
+  // Se crea el elemento del aviso
+  const espacioLlenoBanner = document.createElement("h4");
+
+  if (celdasVacias.length == 0) {
+
+    // Se oculta el form
+    formulario.style.display = "none" ; 
+    espacioLlenoBanner.innerText = "Parqueo lleno!";
+    espacioLlenoBanner.style.color = "red";
+
+    const cantParqueoText = document.querySelector("h3");
+    cantParqueoText.appendChild(espacioLlenoBanner);
+
+  } else {
+    // Aparece el form si hay espacios en lso parqueos 
+    formulario.style.display = "block"; 
+  } 
+
+}
+
 
 const actualizarMensaje = () => {
   // Guardar el b dentro del h3
@@ -100,6 +120,9 @@ const actualizarMensaje = () => {
 
   // Agregar la cantidad de celdas vacias a `espaciosLibres`
   espaciosLibres.innerText = celdasVacias.length;
+
+  ParqueoLleno(celdasVacias) ;
+
 };
 
 formulario.addEventListener("submit", (e) => {
@@ -115,6 +138,8 @@ formulario.addEventListener("submit", (e) => {
   } else {
     alert("Favor ingrese una placa");
   }
+
+
 
   input.value = "";
 });
